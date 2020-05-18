@@ -19,7 +19,7 @@
   = render partial: 'webui/shared/user_or_groups_roles/add_group_dialog', locals: { project: project.to_param, package: package.to_param }
 
 #involved-users{ data: data }
-  - if users.present?
+  - if users.present? || flipper_responsive?
     %h3 User Roles
     %table.responsive.table.table-sm.table-bordered.table-hover.w-100#user-table
       %thead
@@ -35,6 +35,15 @@
                            user_is_maintainer: user_is_maintainer,
                            project: project, package: package }
 
+
+
+        -# last line
+        - if flipper_responsive?
+          = render partial: 'webui/shared/user_or_groups_roles/add_user_inline',
+                   locals:{package: package, project: project}
+
+
+  -# non beta button:
   - if !flipper_responsive? && user_is_maintainer
     %ul.list-inline
       %li.list-inline-item
@@ -46,7 +55,7 @@
 
   %hr
 
-  - if @groups.present?
+  - if @groups.present? || flipper_responsive?
     %h3 Group Roles
     %table.responsive.table.table-sm.table-bordered.table-hover.w-100#group-table
       %thead
@@ -61,6 +70,13 @@
                  locals: { records: groups, roles: roles, type: 'group',
                            user_is_maintainer: user_is_maintainer,
                            project: project, package: package }
+
+        -# last line
+        - if flipper_responsive?
+          = render partial: 'webui/shared/user_or_groups_roles/add_user_inline',
+                   locals:{package: package, project: project}
+        
+  -# non beta button:
   - if !flipper_responsive? && user_is_maintainer
     %ul.list-inline
       %li.list-inline-item
@@ -68,6 +84,7 @@
         = link_to('#', data: { toggle: 'modal', target: '#add-group-role-modal' }, id: 'add-group', class: 'nav-link') do
           %i.fas.fa-plus-circle.text-primary
           Add Group
+
 
 :javascript
   setDataTableForUsersAndGroups();

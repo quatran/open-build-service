@@ -1,0 +1,23 @@
+= form_tag action: :save_person do
+  %tr
+    %td
+      = render partial: 'webui/shared/autocomplete', locals: { html_id: 'userid', label: 'User:',
+                                                               data: { source: autocomplete_users_path } }
+      .form-group
+        = label_tag(:role, 'Role:')
+        = select_tag 'role', options_for_select(Role.local_roles, nil), required: true, class: 'form-control'
+      = hidden_field_tag 'package', package
+      = hidden_field_tag 'project', project
+      - submit_tag_text ||= 'Add'
+      %a.btn.btn-outline-danger.px-4{ data: { dismiss: 'modal' } }
+        Cancel
+      = submit_tag(submit_tag_text, class: 'btn btn-primary px-4')
+    -# checkboxes
+    %td
+      = check_box_tag(userid)
+    %td
+      = check_box_tag(userid)
+    %td
+      = check_box_tag(userid)
+    %td
+      = check_box_tag(userid)
